@@ -1,0 +1,120 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/godot-camera-plugin.funabab/camera_view.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+onready var btn_action = $container/btn_action;
+onready var camera_view = $container/texture/CameraView;
+onready var texture_view = $container/texture;
+onready var info = $container/text_info/text;
+
+var faces = [];
+
+func _ready():
+	btn_action.connect(\"button_up\", self, \"_on_action_btn_up\");
+
+	camera_view.connect(\"initialized\", self, \"_on_initialized\");
+	camera_view.connect(\"picture_taken\", self, \"_on_picture_taken\");
+	
+	pass
+
+func _draw():
+	for face in faces:
+		draw_rect(face, Color.white, false);
+	pass
+
+func _on_action_btn_up():
+	camera_view.take_picture(1);
+	pass
+
+func _on_initialized():
+	prints(\"face_recognition_supported:\", camera_view.is_flash_mode_supported());
+	pass
+
+func _on_picture_taken(error, texture, extras):
+	if error == camera_view.ERROR.NONE:
+		texture_view.texture = texture;
+		btn_action.visible = false;
+		camera_view.visible = false;
+		info.get_parent().visible = false;
+		$container/btn_action2.visible = false;
+		faces = extras.faces;
+		prints(\"faces:\", extras.faces);
+		update();
+	elif error == camera_view.ERROR.MININUM_NUMBER_OF_FACE_NOT_DETECTED:
+		info.text = \"Face not detected!\";
+
+	prints(\"error_code:\", error);
+	pass
+"
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="container" type="VBoxContainer" parent="."]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_action2" type="Button" parent="container"]
+margin_right = 600.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
+size_flags_vertical = 3
+text = "This is godot button"
+
+[node name="texture" type="TextureRect" parent="container"]
+margin_top = 60.0
+margin_right = 600.0
+margin_bottom = 914.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 20.0
+stretch_mode = 3
+
+[node name="CameraView" type="Control" parent="container/texture"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+image_resolution = 2
+camera_facing = 1
+
+[node name="btn_action" type="Button" parent="container"]
+margin_top = 914.0
+margin_right = 600.0
+margin_bottom = 974.0
+rect_min_size = Vector2( 0, 60 )
+size_flags_vertical = 3
+text = "This is godot button"
+
+[node name="text_info" type="Panel" parent="container"]
+margin_top = 974.0
+margin_right = 600.0
+margin_bottom = 1024.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="text" type="Label" parent="container/text_info"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "This is godot view..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
