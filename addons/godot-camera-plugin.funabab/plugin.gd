@@ -5,7 +5,13 @@ const ANDROID_MODULE = "org/godotengine/godot/funabab/camera/FunababCameraPlugin
 const CUSTOM_NODE_NAME = "CameraView";
 
 func _enter_tree():
-	add_custom_type(CUSTOM_NODE_NAME, "Control", preload("camera_view.gd"), preload("icon_node.png"));
+	var custom_icon: Image = Image.new()
+	custom_icon.load("res://addons/godot-camera-plugin.funabab/icon_node.png")
+
+	var custom_icon_texture: ImageTexture = ImageTexture.new()
+	custom_icon_texture.create_from_image(custom_icon)
+
+	add_custom_type(CUSTOM_NODE_NAME, "Control", preload("camera_view.gd"), custom_icon_texture);
 	pass
 
 func _exit_tree():
