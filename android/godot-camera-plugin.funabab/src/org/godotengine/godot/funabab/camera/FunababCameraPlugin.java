@@ -23,7 +23,6 @@ public class FunababCameraPlugin extends Godot.SingletonBase {
     private Godot mActivity;
     private Context mContext;
     private Integer mInstanceId = null;
-    private ViewGroup mRoot;
     private FrameLayout layout = null;
 
     public static final String TAG = FunababCameraPlugin.class.getSimpleName();
@@ -111,7 +110,7 @@ public class FunababCameraPlugin extends Godot.SingletonBase {
 
     private void _destroyView() {
 	    if (mGodotCameraView != null) {
-	        mRoot.removeView(mGodotCameraView);
+	        layout.removeView(mGodotCameraView);
 	        mInstanceId = null;
         }
     }
