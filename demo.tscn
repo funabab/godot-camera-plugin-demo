@@ -48,6 +48,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+face_recognition = false
 
 [node name="BtnTakePicture" type="Button" parent="VBoxContainer"]
 margin_top = 904.0
