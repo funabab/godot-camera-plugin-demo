@@ -3,7 +3,7 @@ extends Control
 
 const CameraViewNativeBridge = preload("camera_view_native_bridge.gd").CameraViewNativeBridge;
 const ERROR_FATAL = 1;
-const ICON_CAMERA = preload("icon_camera.png");
+var ICON_CAMERA = load("res://addons/godot-camera-plugin.funabab/icon_camera.png");
 const COLOR_BG = Color.black;
 
 enum ERROR {

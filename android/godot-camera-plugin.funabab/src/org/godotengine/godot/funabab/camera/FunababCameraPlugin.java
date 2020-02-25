@@ -12,6 +12,7 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class FunababCameraPlugin extends Godot.SingletonBase {
     private Godot mActivity;
     private Context mContext;
     private Integer mInstanceId = null;
-    private ViewGroup mRoot;
+    private FrameLayout layout = null;
 
     public static final String TAG = FunababCameraPlugin.class.getSimpleName();
     private static final int ERROR_CAMERA_NONE = 0;
@@ -54,8 +55,7 @@ public class FunababCameraPlugin extends Godot.SingletonBase {
                 }
 
                 mGodotCameraView = godotCameraView;
-                mRoot = (ViewGroup) mActivity.layout.getParent();
-                mRoot.addView(mGodotCameraView);
+                layout.addView(mGodotCameraView);
 
                 GodotLib.calldeferred(instanceId, "_set_camera_features_", new Object[]{
                         ParameterSerializer.serialize(mGodotCameraView.getCameraFeatures())
@@ -63,6 +63,12 @@ public class FunababCameraPlugin extends Godot.SingletonBase {
             }
         });
 	    return true;
+    }
+
+    @Override
+    public View onMainCreateView(Activity activity) {
+	    layout = new FrameLayout(activity);
+	    return layout;
     }
 
     public void resizeView(int instanceId, final int x, final int y, final int w, final int h) {
@@ -104,7 +110,7 @@ public class FunababCameraPlugin extends Godot.SingletonBase {
 
     private void _destroyView() {
 	    if (mGodotCameraView != null) {
-	        mRoot.removeView(mGodotCameraView);
+	        layout.removeView(mGodotCameraView);
 	        mInstanceId = null;
         }
     }
