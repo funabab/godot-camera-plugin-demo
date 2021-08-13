@@ -12,10 +12,6 @@ _global_script_classes=[  ]
 _global_script_class_icons={
 }
 
-[android]
-
-modules="org/godotengine/godot/funabab/camera/FunababCameraPlugin"
-
 [application]
 
 config/name="godot-camera-plugin-demo"
