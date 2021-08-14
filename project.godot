@@ -10,12 +10,7 @@ config_version=4
 
 _global_script_classes=[  ]
 _global_script_class_icons={
-
 }
-
-[android]
-
-modules="org/godotengine/godot/funabab/camera/FunababCameraPlugin"
 
 [application]
 
@@ -31,7 +26,7 @@ window/handheld/orientation="sensor"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "godot-camera-plugin.funabab" )
+enabled=PoolStringArray( "res://addons/godot-camera-plugin.funabab/plugin.cfg" )
 
 [rendering]
 
